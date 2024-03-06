@@ -23,8 +23,8 @@ jobs:
     strategy:
       matrix:
        include:
-          - os: macos-11
-            EXTRA_BUILD: "-DBUILD_PLAYERBOTS=ON"
+          - os: macos-13
+            EXTRA_BUILD: "-DBUILD_PLAYERBOTS=OFF"
             CORE_PATH : ${{github.repository_owner}}/mangos-classic
 
     steps:
@@ -36,10 +36,7 @@ jobs:
           path: ${{env.REPO_DIR}}
 
       - name: Install Dependencies
-        run: |
-          brew install mysql-client
-          brew install openssl
-          echo "OPENSSL_ROOT_DIR=$(brew --prefix --installed openssl)" >> $GITHUB_ENV
+        run: brew install mysql-client
 
       - name: Install Boost
         uses: MarkusJx/install-boost@v2.4.5
