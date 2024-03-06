@@ -8,7 +8,7 @@ env:
   REPO_DIR : ${{github.workspace}}
   BUILD_DIR: ${{github.workspace}}/bin/builddir
   BOOST_VERSION: "1.83.0"
-  BOOST_PLATFORM_VERSION: "11"
+  BOOST_PLATFORM_VERSION: "13"
   CORE_REPO_OWNER: ${{github.repository_owner}}
 
 permissions:
@@ -24,7 +24,7 @@ jobs:
       matrix:
        include:
           - os: macos-13
-            EXTRA_BUILD: "-DBUILD_PLAYERBOTS=OFF"
+            EXTRA_BUILD: "-DBUILD_PLAYERBOTS=ON"
             CORE_PATH : ${{github.repository_owner}}/mangos-classic
 
     steps:
@@ -59,8 +59,6 @@ jobs:
         run: cmake -DBoost_ARCHITECTURE=-x64 ${{matrix.EXTRA_BUILD}} -DCMAKE_INSTALL_PREFIX=/home/runner/work -B ${{env.BUILD_DIR}} -S ${{env.REPO_DIR}}
 
       - name: Build
-        env:
-          MAKEFLAGS: "-j8"
         run: cmake --build ${{env.BUILD_DIR}} --config ${{env.BUILD_TYPE}}
 
   notify:
